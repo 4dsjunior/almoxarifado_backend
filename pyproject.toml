@@ -1,0 +1,39 @@
+
+[tool.poetry]
+name = "almoxarifado_backend"
+version = "0.1.0"
+description = "Backend do Sistema de Almoxarifado 11.0 Plus+ migrado para Python + FastAPI"
+authors = ["Seu Nome <seu@email.com>"]
+readme = "README.md"
+packages = [
+    { include = "core" },
+    { include = "application" },
+    { include = "infrastructure" },
+    { include = "interfaces" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.110.0"
+uvicorn = "^0.29.0"
+pydantic = "^2.0.0"
+sqlalchemy = "^2.0.0"
+alembic = "^1.13.1"
+python-dotenv = "^1.0.1"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+jinja2 = "^3.1.3"
+pandas = "^2.2.2"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+pytest-asyncio = "^0.23.6"
+mypy = "^1.10.0"
+flake8 = "^7.0.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+bandit = "^1.7.7"
+pre-commit = "^3.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
