@@ -2,9 +2,9 @@ from sqlalchemy import Column, Integer, Float, String, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base
 from datetime import datetime
 
-
 Base = declarative_base()
 
+# --- Tabelas Principais ---
 
 class Tabela_TBEstoque(Base):
     __tablename__ = "Tabela_TBEstoque"
@@ -21,40 +21,35 @@ class Tabela_TBEstoque(Base):
     Almoxarifado = Column(String)
     Foto = Column(String)
 
-
 class Tabela_TBEntradas(Base):
     __tablename__ = "Tabela_TBEntradas"
     IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
-    IDProduto = Column(Integer, ForeignKey(
-        "Tabela_TBEstoque.IDCodigo"), nullable=False)
+    IDProduto = Column(Integer, ForeignKey("Tabela_TBEstoque.IDCodigo"), nullable=False)
     Quantidade = Column(Float, nullable=False)
     DataEntrada = Column(DateTime, default=datetime.utcnow)
     Fornecedor = Column(String)
     NotaFiscal = Column(String)
     Observacao = Column(String)
 
-
 class Tabela_TBSaidas(Base):
     __tablename__ = "Tabela_TBSaidas"
     IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
-    IDProduto = Column(Integer, ForeignKey(
-        "Tabela_TBEstoque.IDCodigo"), nullable=False)
+    IDProduto = Column(Integer, ForeignKey("Tabela_TBEstoque.IDCodigo"), nullable=False)
     Quantidade = Column(Float, nullable=False)
     DataSaida = Column(DateTime, default=datetime.utcnow)
     Destinatario = Column(String)
     Observacao = Column(String)
 
-
 class Tabela_TBDevolucoes(Base):
     __tablename__ = "Tabela_TBDevolucoes"
     IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
-    IDProduto = Column(Integer, ForeignKey(
-        "Tabela_TBEstoque.IDCodigo"), nullable=False)
+    IDProduto = Column(Integer, ForeignKey("Tabela_TBEstoque.IDCodigo"), nullable=False)
     Quantidade = Column(Float, nullable=False)
     DataDevolucao = Column(DateTime, default=datetime.utcnow)
     Origem = Column(String)
     Observacao = Column(String)
 
+# --- Clientes ---
 
 class Tabela_TBClientes(Base):
     __tablename__ = "Tabela_TBClientes"
@@ -65,6 +60,7 @@ class Tabela_TBClientes(Base):
     Documento = Column(String)
     Endereco = Column(String)
 
+# --- Ordens de Serviço ---
 
 class Tabela_TBOrdemServico(Base):
     __tablename__ = "Tabela_TBOrdemServico"
@@ -76,17 +72,15 @@ class Tabela_TBOrdemServico(Base):
     DataFechamento = Column(DateTime)
     Status = Column(String)
 
-
 class Tabela_TBOrdemServicoProdutos(Base):
     __tablename__ = "Tabela_TBOrdemServicoProdutos"
     IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
-    IDOrdemServico = Column(Integer, ForeignKey(
-        "Tabela_TBOrdemServico.IDCodigo"), nullable=False)
-    IDProduto = Column(Integer, ForeignKey(
-        "Tabela_TBEstoque.IDCodigo"), nullable=False)
+    IDOrdemServico = Column(Integer, ForeignKey("Tabela_TBOrdemServico.IDCodigo"), nullable=False)
+    IDProduto = Column(Integer, ForeignKey("Tabela_TBEstoque.IDCodigo"), nullable=False)
     Quantidade = Column(Float, nullable=False)
     Observacao = Column(String)
 
+# --- Kits ---
 
 class Tabela_TBKit(Base):
     __tablename__ = "Tabela_TBKit"
@@ -94,12 +88,51 @@ class Tabela_TBKit(Base):
     Nome = Column(String, nullable=False)
     Descricao = Column(String)
 
-
 class Tabela_TBKitMontado(Base):
     __tablename__ = "Tabela_TBKitMontado"
     IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
-    IDKit = Column(Integer, ForeignKey(
-        "Tabela_TBKit.IDCodigo"), nullable=False)
-    IDProduto = Column(Integer, ForeignKey(
-        "Tabela_TBEstoque.IDCodigo"), nullable=False)
+    IDKit = Column(Integer, ForeignKey("Tabela_TBKit.IDCodigo"), nullable=False)
+    IDProduto = Column(Integer, ForeignKey("Tabela_TBEstoque.IDCodigo"), nullable=False)
     Quantidade = Column(Float, nullable=False)
+
+# --- Catálogos Auxiliares ---
+
+class Tabela_TBCategorias(Base):
+    __tablename__ = "Tabela_TBCategorias"
+    IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
+    Nome = Column(String, unique=True, nullable=False)
+
+class Tabela_TBMarca(Base):
+    __tablename__ = "Tabela_TBMarca"
+    IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
+    Nome = Column(String, unique=True, nullable=False)
+    Observacao = Column(String)
+
+class Tabela_TBModelo(Base):
+    __tablename__ = "Tabela_TBModelo"
+    IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
+    Nome = Column(String, unique=True, nullable=False)
+    Observacao = Column(String)
+
+class Tabela_TBAlmoxarifados(Base):
+    __tablename__ = "Tabela_TBAlmoxarifados"
+    IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
+    Nome = Column(String, unique=True, nullable=False)
+    Localizacao = Column(String)
+    Responsavel = Column(String)
+
+class Tabela_TBFornecedores(Base):
+    __tablename__ = "Tabela_TBFornecedores"
+    IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
+    Nome = Column(String, unique=True, nullable=False)
+    CNPJ = Column(String)
+    Telefone = Column(String)
+    Email = Column(String)
+    Endereco = Column(String)
+    Observacao = Column(String)
+
+class Tabela_TBFormaPagto(Base):
+    __tablename__ = "Tabela_TBFormaPagto"
+    IDCodigo = Column(Integer, primary_key=True, autoincrement=True)
+    Nome = Column(String, unique=True, nullable=False)
+    Observacao = Column(String)

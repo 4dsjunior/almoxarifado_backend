@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from infrastructure.db.session import create_db_and_tables
-from interfaces.api.routers import estoque, entrada, saida, devolucao, cliente, ordem_servico, ordem_servico_produto, kit
+from interfaces.api.routers import estoque, entrada, saida, devolucao, cliente, ordem_servico, ordem_servico_produto, kit, marca, modelo, categoria, almoxarifado, fornecedor, forma_pagto
 
 app = FastAPI(
     title="Almoxarifado 11.0 Plus+ Backend",
@@ -23,6 +23,13 @@ app.include_router(ordem_servico.router)
 app.include_router(ordem_servico_produto.router)
 # Inclui o router do Kit
 app.include_router(kit.router)
+
+app.include_router(marca.router)
+app.include_router(modelo.router)
+app.include_router(categoria.router)
+app.include_router(almoxarifado.router)
+app.include_router(fornecedor.router)
+app.include_router(forma_pagto.router)
 
 
 @app.on_event("startup")
