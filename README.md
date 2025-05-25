@@ -1,6 +1,6 @@
 # Almoxarifado 11.0 Plus+ Backend
 
-## Instalação - TESTE
+## Instalação
 
 1. Clone o projeto:
     git clone https://github.com/4dsjunior/almoxarifado_backend.git
