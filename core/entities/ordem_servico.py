@@ -1,4 +1,3 @@
-# core/entities/ordem_servico.py
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 

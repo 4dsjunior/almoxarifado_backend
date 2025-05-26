@@ -1,4 +1,3 @@
-# core/entities/cliente.py
 from pydantic import BaseModel, ConfigDict
 
 
@@ -7,7 +6,7 @@ class Cliente(BaseModel):
     Nome: str
     Email: str | None = None
     Telefone: str | None = None
-    Documento: str | None = None  # CPF/CNPJ/etc
+    Documento: str | None = None
     Endereco: str | None = None
 
     model_config = ConfigDict(from_attributes=True)

@@ -6,7 +6,7 @@ class Devolucao(BaseModel):
     IDCodigo: int | None = None
     IDProduto: int
     Quantidade: float
-    DataDevolucao: datetime | None = None
+    DataDevolucao: datetime
     Origem: str | None = None
     Observacao: str | None = None
 

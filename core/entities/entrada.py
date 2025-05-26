@@ -6,7 +6,7 @@ class Entrada(BaseModel):
     IDCodigo: int | None = None
     IDProduto: int
     Quantidade: float
-    DataEntrada: datetime | None = None
+    DataEntrada: datetime
     Fornecedor: str | None = None
     NotaFiscal: str | None = None
     Observacao: str | None = None

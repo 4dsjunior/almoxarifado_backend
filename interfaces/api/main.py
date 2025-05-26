@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from infrastructure.db.session import create_db_and_tables
+from interfaces.api.routers.devolucao import router as devolucao_router
 from interfaces.api.routers import estoque, entrada, saida, devolucao, cliente, ordem_servico, ordem_servico_produto, kit, marca, modelo, categoria, almoxarifado, fornecedor, forma_pagto
 
 app = FastAPI(
@@ -23,6 +24,9 @@ app.include_router(ordem_servico.router)
 app.include_router(ordem_servico_produto.router)
 # Inclui o router do Kit
 app.include_router(kit.router)
+# … include outros routers
+app.include_router(devolucao_router)
+
 
 app.include_router(marca.router)
 app.include_router(modelo.router)

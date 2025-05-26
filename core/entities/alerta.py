@@ -2,11 +2,10 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 
-class OrdemServicoProduto(BaseModel):
+class Alerta(BaseModel):
     IDCodigo: int | None = None
-    IDOrdemServico: int
-    IDProduto: int
-    Quantidade: float
-    Observacao: str | None = None
+    Tipo: str
+    Mensagem: str
+    DataCriacao: datetime
 
     model_config = ConfigDict(from_attributes=True)

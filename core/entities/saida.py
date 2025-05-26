@@ -6,7 +6,7 @@ class Saida(BaseModel):
     IDCodigo: int | None = None
     IDProduto: int
     Quantidade: float
-    DataSaida: datetime | None = None
+    DataSaida: datetime
     Destinatario: str | None = None
     Observacao: str | None = None
 

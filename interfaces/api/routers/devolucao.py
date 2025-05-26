@@ -1,14 +1,17 @@
+# interfaces/api/routers/devolucao.py
+
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
 
-from core.entities.devolucao import Devolucao
+from sqlalchemy.orm import Session
 from infrastructure.db.session import get_session
-from infrastructure.db.repositories import DevolucaoRepositorySQLAlchemy
+from core.entities.devolucao import Devolucao
+from infrastructure.db.repositories.devolucao_repository import DevolucaoRepositorySQLAlchemy
 
-router = APIRouter(prefix="/devolucao", tags=["Devolução/Reentrada"])
+router = APIRouter(prefix="/devolucoes", tags=["Devoluções"])
 
 
-def get_devolucao_repo(session=Depends(get_session)):
+def get_devolucao_repo(session: Session = Depends(get_session)):
     return DevolucaoRepositorySQLAlchemy(session)
 
 
@@ -19,10 +22,10 @@ def listar_devolucoes(repo=Depends(get_devolucao_repo)):
 
 @router.get("/{idcodigo}", response_model=Devolucao)
 def get_devolucao(idcodigo: int, repo=Depends(get_devolucao_repo)):
-    devolucao = repo.get_by_id(idcodigo)
-    if not devolucao:
+    obj = repo.get_by_id(idcodigo)
+    if not obj:
         raise HTTPException(status_code=404, detail="Devolução não encontrada")
-    return devolucao
+    return obj
 
 
 @router.post("/", response_model=Devolucao)
