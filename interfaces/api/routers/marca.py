@@ -1,35 +1,46 @@
 from fastapi import APIRouter, Depends, HTTPException
 from typing import List
-from infrastructure.db.repositories import MarcaRepositorySQLAlchemy
-from core.entities.marca import Marca
+
+from sqlalchemy.orm import Session
 from infrastructure.db.session import get_session
+from infrastructure.db.repositories.marca_repository import MarcaRepositorySQLAlchemy
+from core.entities.marca import Marca
 
-router = APIRouter(prefix="/marca", tags=["Marca"])
+router = APIRouter(
+    prefix="/marca",
+    tags=["Marca"],
+)
 
-def get_repo(session=Depends(get_session)):
+
+def get_marca_repo(session: Session = Depends(get_session)) -> MarcaRepositorySQLAlchemy:
     return MarcaRepositorySQLAlchemy(session)
 
+
 @router.get("/", response_model=List[Marca])
-def listar(repo=Depends(get_repo)):
+def listar_marcas(repo: MarcaRepositorySQLAlchemy = Depends(get_marca_repo)):
     return repo.list_all()
 
-@router.get("/{idcodigo}", response_model=Marca)
-def get_by_id(idcodigo: int, repo=Depends(get_repo)):
-    obj = repo.get_by_id(idcodigo)
-    if not obj:
-        raise HTTPException(status_code=404, detail="Marca não encontrada")
-    return obj
 
-@router.post("/", response_model=Marca)
-def add(item: Marca, repo=Depends(get_repo)):
-    return repo.add(item)
+@router.get("/{idcodigo}", response_model=Marca)
+def obter_marca(idcodigo: int, repo: MarcaRepositorySQLAlchemy = Depends(get_marca_repo)):
+    marca = repo.get_by_id(idcodigo)
+    if not marca:
+        raise HTTPException(status_code=404, detail="Marca não encontrada")
+    return marca
+
+
+@router.post("/", response_model=Marca, status_code=201)
+def criar_marca(marc: Marca, repo: MarcaRepositorySQLAlchemy = Depends(get_marca_repo)):
+    return repo.add(marc)
+
 
 @router.put("/{idcodigo}", response_model=Marca)
-def update(idcodigo: int, item: Marca, repo=Depends(get_repo)):
-    item.IDCodigo = idcodigo
-    return repo.update(item)
+def atualizar_marca(idcodigo: int, marc: Marca, repo: MarcaRepositorySQLAlchemy = Depends(get_marca_repo)):
+    marc.IDCodigo = idcodigo
+    return repo.update(marc)
 
-@router.delete("/{idcodigo}")
-def delete(idcodigo: int, repo=Depends(get_repo)):
+
+@router.delete("/{idcodigo}", status_code=204)
+def excluir_marca(idcodigo: int, repo: MarcaRepositorySQLAlchemy = Depends(get_marca_repo)):
     repo.delete(idcodigo)
-    return {"ok": True}
+    return None

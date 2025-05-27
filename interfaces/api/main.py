@@ -1,39 +1,42 @@
 from fastapi import FastAPI
 from infrastructure.db.session import create_db_and_tables
+
+# Routers
+from interfaces.api.routers.almoxarifado import router as almoxarifado_router
+from interfaces.api.routers.categoria import router as categoria_router
+from interfaces.api.routers.cliente import router as cliente_router
+from interfaces.api.routers.entrada import router as entrada_router
+from interfaces.api.routers.estoque import router as estoque_router
+from interfaces.api.routers.fornecedor import router as fornecedor_router
+from interfaces.api.routers.forma_pagto import router as forma_pagto_router
+from interfaces.api.routers.kit import router as kit_router
+from interfaces.api.routers.marca import router as marca_router
+from interfaces.api.routers.modelo import router as modelo_router
+from interfaces.api.routers.ordem_servico import router as os_router
+from interfaces.api.routers.ordem_servico_produto import router as osp_router
+from interfaces.api.routers.saida import router as saida_router
 from interfaces.api.routers.devolucao import router as devolucao_router
-from interfaces.api.routers import estoque, entrada, saida, devolucao, cliente, ordem_servico, ordem_servico_produto, kit, marca, modelo, categoria, almoxarifado, fornecedor, forma_pagto
 
 app = FastAPI(
     title="Almoxarifado 11.0 Plus+ Backend",
-    version="0.1.0"
+    version="0.1.0",
 )
 
-# Inclui o router do estoque
-app.include_router(estoque.router)
-# Inclui o router da entrada
-app.include_router(entrada.router)
-# Inclui o router da saida
-app.include_router(saida.router)
-# Inclui o router da devolucao
-app.include_router(devolucao.router)
-# Inclui o router da devolucao
-app.include_router(cliente.router)
-# Inclui o router da OS
-app.include_router(ordem_servico.router)
-# Inclui o router da OS Produtos
-app.include_router(ordem_servico_produto.router)
-# Inclui o router do Kit
-app.include_router(kit.router)
-# … include outros routers
+# Inclui todos os routers em ordem alfabética de prefix
+app.include_router(almoxarifado_router)
+app.include_router(categoria_router)
+app.include_router(cliente_router)
+app.include_router(entrada_router)
+app.include_router(estoque_router)
+app.include_router(fornecedor_router)
+app.include_router(forma_pagto_router)
+app.include_router(kit_router)
+app.include_router(marca_router)
+app.include_router(modelo_router)
+app.include_router(os_router)
+app.include_router(osp_router)
+app.include_router(saida_router)
 app.include_router(devolucao_router)
-
-
-app.include_router(marca.router)
-app.include_router(modelo.router)
-app.include_router(categoria.router)
-app.include_router(almoxarifado.router)
-app.include_router(fornecedor.router)
-app.include_router(forma_pagto.router)
 
 
 @app.on_event("startup")
@@ -42,6 +45,6 @@ def on_startup():
     create_db_and_tables()
 
 
-@app.get("/")
+@app.get("/", tags=["Root"])
 def root():
     return {"msg": "Backend Almoxarifado 11.0 Plus+ pronto!"}

@@ -1,6 +1,4 @@
 from pydantic import BaseModel, ConfigDict
-from datetime import datetime
-
 
 class Estoque(BaseModel):
     IDCodigo: int | None = None

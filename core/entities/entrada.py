@@ -1,7 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
-
 class Entrada(BaseModel):
     IDCodigo: int | None = None
     IDProduto: int
